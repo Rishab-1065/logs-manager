@@ -1,6 +1,6 @@
-# console-utility README
+# log-manager README
 
-This is the README for your extension "console-utility". After writing up a brief description, we recommend including the following sections.
+This is the README for your extension "log-manager". After writing up a brief description, we recommend including the following sections.
 
 ## Features
 
@@ -47,11 +47,11 @@ Fixed issue #.
 
 Added features X, Y, and Z.
 
------------------------------------------------------------------------------------------------------------
+---
 
 ## Working with Markdown
 
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
+**Note:** You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
 
 * Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
 * Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
