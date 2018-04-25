@@ -1,0 +1,52 @@
+{
+  "name": "console-utility",
+  "displayName": "Console Utility",
+  "description": "",
+  "version": "0.0.1",
+  "publisher": "Rishab",
+  "engines": {
+    "vscode": "^1.21.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": [
+    "onCommand:extension.commentAllLogs",
+    "onCommand:extension.removeAllLogs",
+    "onCommand:extension.uncommentAllLogs"
+  ],
+  "main": "./extension",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.commentAllLogs",
+        "title": "Comment all logs"
+      },
+      {
+        "command": "extension.removeAllLogs",
+        "title": "Remove all logs"
+      },
+      {
+        "command": "extension.uncommentAllLogs",
+        "title": "Uncomment all logs"
+      }
+    ]
+  },
+  "scripts": {
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "node ./node_modules/vscode/bin/test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^2.2.42",
+    "@types/node": "^7.0.43",
+    "eslint": "^4.11.0",
+    "typescript": "^2.6.1",
+    "vscode": "^1.1.6"
+  },
+  "dependencies": {
+    "@babel/types": "^7.0.0-beta.44",
+    "babel-generator": "^6.26.1",
+    "babel-traverse": "^6.26.0",
+    "babylon": "^6.18.0",
+    "lodash": "^4.17.5",
+    "prettier": "^1.12.1"
+  }
+}
