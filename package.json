@@ -10,8 +10,7 @@
   "categories": ["Other"],
   "activationEvents": [
     "onCommand:extension.commentAllLogs",
-    "onCommand:extension.removeAllLogs",
-    "onCommand:extension.uncommentAllLogs"
+    "onCommand:extension.removeAllLogs"
   ],
   "main": "./extension",
   "contributes": {

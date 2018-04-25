@@ -110,26 +110,27 @@ const uncommentAllLogs = documentText => {
           }
         }
       );
-    } else if (get(path, "node.trailingComments")) {
-      traverseComments(
-        get(path, "node.trailingComments"),
-        (commentsArray, comment, index) => {
-          try {
-            const value = get(comment, "value");
-            // if (!isLogUncommentedBefore(logsUncommented, value)) {
-            let commmentAst = getASTFromCode(value);
-            // logsUncommented.push(value);
-            commmentAst = get(commmentAst, "program.body.0");
-            // console.log(commmentAst, "commmentAst");
-            path.insertAfter(commmentAst);
-            // }
-            commentsArray.splice(index, 1);
-          } catch (Error) {
-            console.log(Error);
-          }
-        }
-      );
     }
+    // else if (get(path, "node.trailingComments")) {
+    //   traverseComments(
+    //     get(path, "node.trailingComments"),
+    //     (commentsArray, comment, index) => {
+    //       try {
+    //         const value = get(comment, "value");
+    //         // if (!isLogUncommentedBefore(logsUncommented, value)) {
+    //         let commmentAst = getASTFromCode(value);
+    //         // logsUncommented.push(value);
+    //         commmentAst = get(commmentAst, "program.body.0");
+    //         // console.log(commmentAst, "commmentAst");
+    //         path.insertAfter(commmentAst);
+    //         // }
+    //         commentsArray.splice(index, 1);
+    //       } catch (Error) {
+    //         console.log(Error);
+    //       }
+    //     }
+    //   );
+    // }
   });
   return getCodeFromAST(ast);
 };
