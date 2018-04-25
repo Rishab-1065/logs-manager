@@ -1,6 +1,6 @@
-# log-manager README
+# logs-manager README
 
-This is the README for your extension "log-manager". After writing up a brief description, we recommend including the following sections.
+This is the README for your extension "logs-manager". After writing up a brief description, we recommend including the following sections.
 
 ## Features
 
