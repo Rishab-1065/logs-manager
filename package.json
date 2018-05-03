@@ -1,9 +1,10 @@
 {
-  "name": "console-utility",
-  "displayName": "Console Utility",
+  "name": "js-logs-manager",
+  "displayName": "JS Logs Manager",
   "description": "",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "publisher": "Rishab",
+  "repository": "https://github.com/Rishab-1065/logs-manager",
   "engines": {
     "vscode": "^1.21.0"
   },
@@ -22,14 +23,24 @@
       {
         "command": "extension.removeAllLogs",
         "title": "Remove all logs"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "extension.commentAllLogs",
+        "key": "shift+ctrl+c",
+        "mac": "shift+cmd+c",
+        "when": "editorTextFocus"
       },
       {
-        "command": "extension.uncommentAllLogs",
-        "title": "Uncomment all logs"
+        "command": "extension.removeAllLogs",
+        "key": "shift+ctrl+r",
+        "mac": "shift+cmd+r"
       }
     ]
   },
   "scripts": {
+    "compile": "node ./node_modules/vscode/bin/compile ",
     "postinstall": "node ./node_modules/vscode/bin/install",
     "test": "node ./node_modules/vscode/bin/test"
   },

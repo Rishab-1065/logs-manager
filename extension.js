@@ -4,22 +4,10 @@ const vscode = require("vscode");
 const removeAllLogs = require("./utils").removeAllLogs;
 const commentAllLogs = require("./utils").commentAllLogs;
 const uncommentAllLogs = require("./utils").uncommentAllLogs;
-let workspaceEdit = new vscode.WorkspaceEdit();
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is execute
 function getCurrentDocument() {
   return vscode.window.activeTextEditor.document;
-}
-function getDocumentRange(document) {
-  var firstLine = document.lineAt(0);
-  var lastLine = document.lineAt(document.lineCount - 1);
-  var textRange = new vscode.Range(
-    0,
-    firstLine.range.start.character,
-    document.lineCount - 1,
-    lastLine.range.end.character
-  );
-  return textRange;
 }
 function activate(context) {
   // Use the console to output diagnostic information (console.log) and errors (console.error)
@@ -29,48 +17,27 @@ function activate(context) {
     "extension.removeAllLogs",
     () => {
       const document = getCurrentDocument();
-      const uri = document.uri;
       const documentText = document.getText();
-
       const newDocumentText = removeAllLogs(documentText);
-      const textRange = getDocumentRange(document);
-      // console.log(newDocumentText);
-      workspaceEdit.replace(uri, textRange, newDocumentText);
-      vscode.workspace.applyEdit(workspaceEdit).then(() => {
-        vscode.window.showInformationMessage(`all logs removed`);
-      });
+      applyNewText(document, newDocumentText);
     }
   );
   const commentCommand = vscode.commands.registerCommand(
     "extension.commentAllLogs",
     () => {
       const document = getCurrentDocument();
-      const uri = document.uri;
       const documentText = document.getText();
-
       const newDocumentText = commentAllLogs(documentText);
-      const textRange = getDocumentRange(document);
-      // console.log(newDocumentText);
-      workspaceEdit.replace(uri, textRange, newDocumentText);
-      vscode.workspace.applyEdit(workspaceEdit).then(() => {
-        vscode.window.showInformationMessage(`all logs commented`);
-      });
+      applyNewText(document, newDocumentText);
     }
   );
   const uncommentCommand = vscode.commands.registerCommand(
     "extension.uncommentAllLogs",
     () => {
       const document = getCurrentDocument();
-      const uri = document.uri;
       const documentText = document.getText();
-
       const newDocumentText = uncommentAllLogs(documentText);
-      const textRange = getDocumentRange(document);
-      // console.log(newDocumentText);
-      workspaceEdit.replace(uri, textRange, newDocumentText);
-      vscode.workspace.applyEdit(workspaceEdit).then(() => {
-        vscode.window.showInformationMessage(`all logs uncommented`);
-      });
+      applyNewText(document, newDocumentText);
     }
   );
   context.subscriptions.push(commentCommand);
@@ -78,6 +45,16 @@ function activate(context) {
   context.subscriptions.push(uncommentCommand);
 }
 exports.activate = activate;
+
+function applyNewText(document, newDocumentText) {
+  const documentLineCount = document.lineCount;
+  vscode.window.activeTextEditor.edit(editBuilder => {
+    editBuilder.replace(
+      new vscode.Range(0, 0, documentLineCount, 0),
+      newDocumentText
+    );
+  });
+}
 
 // this method is called when your extension is deactivated
 function deactivate() {}
