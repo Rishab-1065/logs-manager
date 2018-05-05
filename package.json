@@ -8,7 +8,9 @@
   "engines": {
     "vscode": "^1.21.0"
   },
-  "categories": ["Other"],
+  "categories": [
+    "Other"
+  ],
   "activationEvents": [
     "onCommand:extension.commentAllLogs",
     "onCommand:extension.removeAllLogs"

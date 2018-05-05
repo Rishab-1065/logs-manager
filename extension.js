@@ -16,28 +16,40 @@ function activate(context) {
   const removeCommand = vscode.commands.registerCommand(
     "extension.removeAllLogs",
     () => {
-      const document = getCurrentDocument();
-      const documentText = document.getText();
-      const newDocumentText = removeAllLogs(documentText);
-      applyNewText(document, newDocumentText);
+      try {
+        const document = getCurrentDocument();
+        const documentText = document.getText();
+        const newDocumentText = removeAllLogs(documentText);
+        applyNewText(document, newDocumentText);
+      } catch (Error) {
+        notify("Oops!!! Something went wrong.", "error");
+      }
     }
   );
   const commentCommand = vscode.commands.registerCommand(
     "extension.commentAllLogs",
     () => {
-      const document = getCurrentDocument();
-      const documentText = document.getText();
-      const newDocumentText = commentAllLogs(documentText);
-      applyNewText(document, newDocumentText);
+      try {
+        const document = getCurrentDocument();
+        const documentText = document.getText();
+        const newDocumentText = commentAllLogs(documentText);
+        applyNewText(document, newDocumentText);
+      } catch (Error) {
+        notify("Oops!!! Something went wrong.", "error");
+      }
     }
   );
   const uncommentCommand = vscode.commands.registerCommand(
     "extension.uncommentAllLogs",
     () => {
-      const document = getCurrentDocument();
-      const documentText = document.getText();
-      const newDocumentText = uncommentAllLogs(documentText);
-      applyNewText(document, newDocumentText);
+      try {
+        const document = getCurrentDocument();
+        const documentText = document.getText();
+        const newDocumentText = uncommentAllLogs(documentText);
+        applyNewText(document, newDocumentText);
+      } catch (Error) {
+        notify("Oops!!! Something went wrong.", "error");
+      }
     }
   );
   context.subscriptions.push(commentCommand);
@@ -54,6 +66,19 @@ function applyNewText(document, newDocumentText) {
       newDocumentText
     );
   });
+}
+
+function notify(message, type) {
+  switch (type) {
+    case "warning":
+      vscode.window.showWarningMessage(message);
+      break;
+    case "error":
+      vscode.window.showErrorMessage(message);
+      break;
+    default:
+      vscode.window.showInformationMessage(message);
+  }
 }
 
 // this method is called when your extension is deactivated

@@ -6,10 +6,37 @@ const prettier = require("prettier");
 const { get, set, forEach } = require("lodash");
 const consoleRegex = /console.(log|debug|info|warn|error|assert|dir|dirxml|trace|group|groupEnd|time|timeEnd|profile|profileEnd|count)\(.*[^]\);?/;
 function getASTFromCode(code) {
-  return babylon.parse(code, {
-    sourceType: "module",
-    plugins: ["jsx", "flow"]
-  });
+  try {
+    return babylon.parse(code, {
+      sourceType: "module",
+      allowImportExportEverywhere: true,
+      allowReturnOutsideFunction: true,
+      allowSuperOutsideMethod: true,
+      allowAwaitOutsideFunction: false,
+      plugins: [
+        "jsx",
+        "flow",
+        "flowComments",
+        "typescript",
+        "doExpressions",
+        "objectRestSpread",
+        "decorators",
+        "decorators2",
+        "classProperties",
+        "classPrivateProperties",
+        "classPrivateMethods",
+        "exportDefaultFrom",
+        "exportNamespaceFrom",
+        "asyncGenerators",
+        "functionBind",
+        "functionSent",
+        "throwExpressions"
+      ]
+    });
+  } catch (Error) {
+    // console.log("getASTFromCode", Error);
+    throw new Error("Something went wrong");
+  }
 }
 function isLogNode(path) {
   return (
@@ -24,7 +51,8 @@ function getCodeFromAST(ast) {
   try {
     return prettier.format(generate(ast, { comments: true }).code);
   } catch (error) {
-    console.log(error);
+    // console.log("getCodeFromAST", error);
+    throw new Error("Something went wrong");
   }
 }
 function traverseComments(commentsArray, callback) {
@@ -43,7 +71,8 @@ function traverseAST(ast, callback) {
       }
     });
   } catch (Error) {
-    console.log(Error);
+    // console.log("traverseAST", Error);
+    throw new Error("Something went wrong");
   }
 }
 function isLogUncommentedBefore(logsUncommented, value) {
@@ -52,9 +81,6 @@ function isLogUncommentedBefore(logsUncommented, value) {
 const removeAllLogs = documentText => {
   const ast = getASTFromCode(documentText);
   traverseAST(ast, path => {
-    if (isLogNode(path)) {
-      path.remove();
-    }
     if (get(path, "node.leadingComments")) {
       traverseComments(
         get(path, "node.leadingComments"),
@@ -71,6 +97,23 @@ const removeAllLogs = documentText => {
         }
       );
     }
+    if (isLogNode(path)) {
+      if (
+        get(path, "node.leadingComments") ||
+        get(path, "node.trailingComments")
+      ) {
+        const logNode = get(path, "node");
+        const nodeLeadingComments = get(logNode, "leadingComments", []);
+        const nodeTrailingComments = get(logNode, "trailingComments", []);
+        const identifier = babelTypes.identifier("");
+        set(identifier, "leadingComments", nodeLeadingComments);
+        set(identifier, "trailingComments", nodeTrailingComments);
+        const expresssionNode = babelTypes.expressionStatement(identifier);
+        path.replaceWith(expresssionNode);
+      } else {
+        path.remove();
+      }
+    }
   });
   return getCodeFromAST(ast);
 };
@@ -78,11 +121,18 @@ const commentAllLogs = documentText => {
   const ast = getASTFromCode(documentText);
   traverseAST(ast, path => {
     if (isLogNode(path)) {
-      const code = getCodeFromAST(path.node);
-      const textNode = babelTypes.identifier("");
+      const logNode = get(path, "node");
+      const nodeLeadingComments = get(logNode, "leadingComments", []);
+      set(logNode, "leadingComments", []);
+      const nodeTrailingComments = get(logNode, "trailingComments", []);
+      set(logNode, "trailingComments", []);
+      const code = getCodeFromAST(logNode);
+      const identifier = babelTypes.identifier("");
       const commmentBlock = { type: "CommentLine", value: ` ${code}` };
-      set(textNode, "leadingComments", [commmentBlock]);
-      const expresssionNode = babelTypes.expressionStatement(textNode);
+      nodeLeadingComments.push(commmentBlock);
+      set(identifier, "leadingComments", nodeLeadingComments);
+      set(identifier, "trailingComments", nodeTrailingComments);
+      const expresssionNode = babelTypes.expressionStatement(identifier);
       path.replaceWith(expresssionNode);
     }
   });
@@ -107,7 +157,7 @@ const uncommentAllLogs = documentText => {
             // }
             commentsArray.splice(index, 1);
           } catch (Error) {
-            console.log(Error);
+            console.log("uncommentAllLogs", Error);
           }
         }
       );
