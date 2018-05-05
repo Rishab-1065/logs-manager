@@ -54,14 +54,16 @@ const removeAllLogs = documentText => {
   traverseAST(ast, path => {
     if (isLogNode(path)) {
       path.remove();
-    } else if (get(path, "node.leadingComments")) {
+    }
+    if (get(path, "node.leadingComments")) {
       traverseComments(
         get(path, "node.leadingComments"),
         (commentsArray, comment, index) => {
           commentsArray.splice(index, 1);
         }
       );
-    } else if (get(path, "node.trailingComments")) {
+    }
+    if (get(path, "node.trailingComments")) {
       traverseComments(
         get(path, "node.trailingComments"),
         (commentsArray, comment, index) => {
@@ -77,10 +79,11 @@ const commentAllLogs = documentText => {
   traverseAST(ast, path => {
     if (isLogNode(path)) {
       const code = getCodeFromAST(path.node);
-      const textNode = babelTypes.jSXText("");
+      const textNode = babelTypes.identifier("");
       const commmentBlock = { type: "CommentLine", value: ` ${code}` };
       set(textNode, "leadingComments", [commmentBlock]);
-      path.replaceWith(textNode);
+      const expresssionNode = babelTypes.expressionStatement(textNode);
+      path.replaceWith(expresssionNode);
     }
   });
   return getCodeFromAST(ast);
