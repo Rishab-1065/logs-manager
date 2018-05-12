@@ -1,8 +1,7 @@
 const babylon = require("babylon");
 const traverse = require("babel-traverse").default;
 const babelTypes = require("babel-types");
-const generate = require("babel-generator").default;
-const prettier = require("prettier");
+const generate = require("@babel/generator").default;
 const { get, set, forEach } = require("lodash");
 const consoleRegex = /console.(log|debug|info|warn|error|assert|dir|dirxml|trace|group|groupEnd|time|timeEnd|profile|profileEnd|count)\(.*[^]\);?/;
 function getASTFromCode(code) {
@@ -15,13 +14,12 @@ function getASTFromCode(code) {
       allowAwaitOutsideFunction: false,
       plugins: [
         "jsx",
-        "flow",
+        // "flow",
         "flowComments",
         "typescript",
         "doExpressions",
         "objectRestSpread",
         "decorators",
-        "decorators2",
         "classProperties",
         "classPrivateProperties",
         "classPrivateMethods",
@@ -34,7 +32,7 @@ function getASTFromCode(code) {
       ]
     });
   } catch (Error) {
-    // console.log("getASTFromCode", Error);
+    console.log("getASTFromCode", Error);
     throw new Error("Something went wrong");
   }
 }
@@ -49,9 +47,9 @@ function isLogNode(path) {
 }
 function getCodeFromAST(ast) {
   try {
-    return prettier.format(generate(ast, { comments: true }).code);
+    return generate(ast, { comments: true }).code;
   } catch (error) {
-    // console.log("getCodeFromAST", error);
+    console.log("getCodeFromAST", error);
     throw new Error("Something went wrong");
   }
 }
@@ -71,7 +69,7 @@ function traverseAST(ast, callback) {
       }
     });
   } catch (Error) {
-    // console.log("traverseAST", Error);
+    console.log("traverseAST", Error);
     throw new Error("Something went wrong");
   }
 }
@@ -127,13 +125,12 @@ const commentAllLogs = documentText => {
       const nodeTrailingComments = get(logNode, "trailingComments", []);
       set(logNode, "trailingComments", []);
       const code = getCodeFromAST(logNode);
-      const identifier = babelTypes.identifier("");
+      const jSXText = babelTypes.jSXText("");
       const commmentBlock = { type: "CommentLine", value: ` ${code}` };
       nodeLeadingComments.push(commmentBlock);
-      set(identifier, "leadingComments", nodeLeadingComments);
-      set(identifier, "trailingComments", nodeTrailingComments);
-      const expresssionNode = babelTypes.expressionStatement(identifier);
-      path.replaceWith(expresssionNode);
+      set(jSXText, "leadingComments", nodeLeadingComments);
+      set(jSXText, "trailingComments", nodeTrailingComments);
+      path.replaceWith(jSXText);
     }
   });
   return getCodeFromAST(ast);

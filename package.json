@@ -8,9 +8,7 @@
   "engines": {
     "vscode": "^1.21.0"
   },
-  "categories": [
-    "Other"
-  ],
+  "categories": ["Other"],
   "activationEvents": [
     "onCommand:extension.commentAllLogs",
     "onCommand:extension.removeAllLogs"
@@ -31,8 +29,7 @@
       {
         "command": "extension.commentAllLogs",
         "key": "shift+ctrl+c",
-        "mac": "shift+cmd+c",
-        "when": "editorTextFocus"
+        "mac": "shift+cmd+c"
       },
       {
         "command": "extension.removeAllLogs",
@@ -48,18 +45,18 @@
   },
   "devDependencies": {
     "@types/mocha": "^2.2.42",
-    "@types/node": "^7.0.43",
+    "@types/node": "^7.0.63",
     "eslint": "^4.11.0",
     "typescript": "^2.6.1",
     "vscode": "^1.1.6"
   },
   "dependencies": {
+    "@babel/generator": "^7.0.0-beta.46",
     "@babel/types": "^7.0.0-beta.44",
     "babel-generator": "^6.26.1",
     "babel-traverse": "^6.26.0",
-    "babylon": "^6.18.0",
+    "babylon": "^7.0.0-beta.46",
     "hoek": "^5.0.3",
-    "lodash": "^4.17.5",
-    "prettier": "^1.12.1"
+    "lodash": "^4.17.5"
   }
 }

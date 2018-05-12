@@ -1,9 +1,10 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require("vscode");
-const removeAllLogs = require("./utils").removeAllLogs;
-const commentAllLogs = require("./utils").commentAllLogs;
-const uncommentAllLogs = require("./utils").uncommentAllLogs;
+const jsRemoveAllLogs = require("./js-utils").removeAllLogs;
+const jsCommentAllLogs = require("./js-utils").commentAllLogs;
+const jsUncommentAllLogs = require("./js-utils").uncommentAllLogs;
+// const tsCommentAllLogs = require("./ts-utils").commentAllLogs;
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is execute
 function getCurrentDocument() {
@@ -19,7 +20,13 @@ function activate(context) {
       try {
         const document = getCurrentDocument();
         const documentText = document.getText();
-        const newDocumentText = removeAllLogs(documentText);
+        const fileType = document.languageId;
+        let newDocumentText = documentText;
+        // if (fileType === "javascript") {
+        newDocumentText = jsRemoveAllLogs(documentText);
+        // } else if (fileType === "typescript") {
+        newDocumentText = jsRemoveAllLogs(documentText);
+        // }
         applyNewText(document, newDocumentText);
       } catch (Error) {
         notify("Oops!!! Something went wrong.", "error");
@@ -32,7 +39,13 @@ function activate(context) {
       try {
         const document = getCurrentDocument();
         const documentText = document.getText();
-        const newDocumentText = commentAllLogs(documentText);
+        const fileType = document.languageId;
+        let newDocumentText = documentText;
+        // if (fileType === "javascript") {
+        newDocumentText = jsCommentAllLogs(documentText);
+        // } else if (fileType === "typescript") {
+        // newDocumentText = tsCommentAllLogs(documentText);
+        // }
         applyNewText(document, newDocumentText);
       } catch (Error) {
         notify("Oops!!! Something went wrong.", "error");
@@ -45,7 +58,7 @@ function activate(context) {
       try {
         const document = getCurrentDocument();
         const documentText = document.getText();
-        const newDocumentText = uncommentAllLogs(documentText);
+        const newDocumentText = jsUncommentAllLogs(documentText);
         applyNewText(document, newDocumentText);
       } catch (Error) {
         notify("Oops!!! Something went wrong.", "error");
@@ -65,6 +78,7 @@ function applyNewText(document, newDocumentText) {
       new vscode.Range(0, 0, documentLineCount, 0),
       newDocumentText
     );
+    vscode.commands.executeCommand("workbench.action.files.save");
   });
 }
 
