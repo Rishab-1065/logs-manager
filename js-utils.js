@@ -95,6 +95,14 @@ const removeAllLogs = documentText => {
         }
       );
     }
+    if (get(path, "node.innerComments")) {
+      traverseComments(
+        get(path, "node.innerComments"),
+        (commentsArray, comment, index) => {
+          commentsArray.splice(index, 1);
+        }
+      );
+    }
     if (isLogNode(path)) {
       if (
         get(path, "node.leadingComments") ||
