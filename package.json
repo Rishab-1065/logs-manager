@@ -2,7 +2,7 @@
   "name": "js-logs-manager",
   "displayName": "JS Logs Manager",
   "description": "",
-  "version": "0.0.4",
+  "version": "0.0.1",
   "publisher": "Rishab",
   "repository": "https://github.com/Rishab-1065/logs-manager",
   "engines": {
