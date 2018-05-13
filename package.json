@@ -1,62 +1,64 @@
 {
-  "name": "js-logs-manager",
-  "displayName": "JS Logs Manager",
-  "description": "",
-  "version": "0.0.1",
-  "publisher": "Rishab",
-  "repository": "https://github.com/Rishab-1065/logs-manager",
-  "engines": {
-    "vscode": "^1.21.0"
-  },
-  "categories": ["Other"],
-  "activationEvents": [
-    "onCommand:extension.commentAllLogs",
-    "onCommand:extension.removeAllLogs"
-  ],
-  "main": "./extension",
-  "contributes": {
-    "commands": [
-      {
-        "command": "extension.commentAllLogs",
-        "title": "Comment all logs"
-      },
-      {
-        "command": "extension.removeAllLogs",
-        "title": "Remove all logs"
-      }
+    "name": "js-logs-manager",
+    "displayName": "JS Logs Manager",
+    "description": "",
+    "version": "0.0.2",
+    "publisher": "Rishab",
+    "repository": "https://github.com/Rishab-1065/logs-manager",
+    "engines": {
+        "vscode": "^1.21.0"
+    },
+    "categories": [
+        "Other"
     ],
-    "keybindings": [
-      {
-        "command": "extension.commentAllLogs",
-        "key": "shift+ctrl+c",
-        "mac": "shift+cmd+c"
-      },
-      {
-        "command": "extension.removeAllLogs",
-        "key": "shift+ctrl+r",
-        "mac": "shift+cmd+r"
-      }
-    ]
-  },
-  "scripts": {
-    "compile": "node ./node_modules/vscode/bin/compile ",
-    "postinstall": "node ./node_modules/vscode/bin/install",
-    "test": "node ./node_modules/vscode/bin/test"
-  },
-  "devDependencies": {
-    "@types/mocha": "^2.2.42",
-    "@types/node": "^7.0.63",
-    "eslint": "^4.11.0",
-    "typescript": "^2.6.1",
-    "vscode": "^1.1.6"
-  },
-  "dependencies": {
-    "@babel/generator": "^7.0.0-beta.46",
-    "@babel/types": "^7.0.0-beta.44",
-    "babel-generator": "^6.26.1",
-    "babel-traverse": "^6.26.0",
-    "babylon": "^7.0.0-beta.46",
-    "hoek": "^5.0.3",
-    "lodash": "^4.17.5"
-  }
+    "activationEvents": [
+        "onCommand:extension.commentAllLogs",
+        "onCommand:extension.removeAllLogs"
+    ],
+    "main": "./extension",
+    "contributes": {
+        "commands": [
+            {
+                "command": "extension.commentAllLogs",
+                "title": "Comment all logs"
+            },
+            {
+                "command": "extension.removeAllLogs",
+                "title": "Remove all logs"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "extension.commentAllLogs",
+                "key": "shift+ctrl+c",
+                "mac": "shift+cmd+c"
+            },
+            {
+                "command": "extension.removeAllLogs",
+                "key": "shift+ctrl+r",
+                "mac": "shift+cmd+r"
+            }
+        ]
+    },
+    "scripts": {
+        "compile": "node ./node_modules/vscode/bin/compile ",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "node ./node_modules/vscode/bin/test"
+    },
+    "devDependencies": {
+        "@types/mocha": "^2.2.42",
+        "@types/node": "^7.0.63",
+        "eslint": "^4.11.0",
+        "typescript": "^2.6.1",
+        "vscode": "^1.1.6"
+    },
+    "dependencies": {
+        "@babel/generator": "^7.0.0-beta.46",
+        "@babel/types": "^7.0.0-beta.44",
+        "babel-generator": "^6.26.1",
+        "babel-traverse": "^6.26.0",
+        "babylon": "^7.0.0-beta.46",
+        "hoek": "^5.0.3",
+        "lodash": "^4.17.5"
+    }
 }

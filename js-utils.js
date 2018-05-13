@@ -32,7 +32,6 @@ function getASTFromCode(code) {
       ]
     });
   } catch (Error) {
-    console.log("getASTFromCode", Error);
     throw new Error("Something went wrong");
   }
 }
@@ -47,9 +46,8 @@ function isLogNode(path) {
 }
 function getCodeFromAST(ast) {
   try {
-    return generate(ast, { comments: true }).code;
+    return generate(ast, { comments: true, compact: false }).code;
   } catch (error) {
-    console.log("getCodeFromAST", error);
     throw new Error("Something went wrong");
   }
 }
@@ -69,7 +67,6 @@ function traverseAST(ast, callback) {
       }
     });
   } catch (Error) {
-    console.log("traverseAST", Error);
     throw new Error("Something went wrong");
   }
 }
@@ -134,7 +131,7 @@ const commentAllLogs = documentText => {
       set(logNode, "trailingComments", []);
       const code = getCodeFromAST(logNode);
       const jSXText = babelTypes.jSXText("");
-      const commmentBlock = { type: "CommentLine", value: ` ${code}` };
+      const commmentBlock = { type: "CommentBlock", value: ` ${code}` };
       nodeLeadingComments.push(commmentBlock);
       set(jSXText, "leadingComments", nodeLeadingComments);
       set(jSXText, "trailingComments", nodeTrailingComments);
@@ -161,9 +158,7 @@ const uncommentAllLogs = documentText => {
             path.insertBefore(commmentAst);
             // }
             commentsArray.splice(index, 1);
-          } catch (Error) {
-            console.log("uncommentAllLogs", Error);
-          }
+          } catch (Error) {}
         }
       );
     }
@@ -177,12 +172,12 @@ const uncommentAllLogs = documentText => {
     //         let commmentAst = getASTFromCode(value);
     //         // logsUncommented.push(value);
     //         commmentAst = get(commmentAst, "program.body.0");
-    //         // console.log(commmentAst, "commmentAst");
+
     //         path.insertAfter(commmentAst);
     //         // }
     //         commentsArray.splice(index, 1);
     //       } catch (Error) {
-    //         console.log(Error);
+
     //       }
     //     }
     //   );

@@ -4,7 +4,6 @@ const vscode = require("vscode");
 const jsRemoveAllLogs = require("./js-utils").removeAllLogs;
 const jsCommentAllLogs = require("./js-utils").commentAllLogs;
 const jsUncommentAllLogs = require("./js-utils").uncommentAllLogs;
-// const tsCommentAllLogs = require("./ts-utils").commentAllLogs;
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is execute
 function getCurrentDocument() {
@@ -22,12 +21,9 @@ function activate(context) {
         const documentText = document.getText();
         const fileType = document.languageId;
         let newDocumentText = documentText;
-        // if (fileType === "javascript") {
         newDocumentText = jsRemoveAllLogs(documentText);
-        // } else if (fileType === "typescript") {
-        newDocumentText = jsRemoveAllLogs(documentText);
-        // }
         applyNewText(document, newDocumentText);
+        formatAndSave("Logs Removed Successfully");
       } catch (Error) {
         notify("Oops!!! Something went wrong.", "error");
       }
@@ -41,12 +37,9 @@ function activate(context) {
         const documentText = document.getText();
         const fileType = document.languageId;
         let newDocumentText = documentText;
-        // if (fileType === "javascript") {
         newDocumentText = jsCommentAllLogs(documentText);
-        // } else if (fileType === "typescript") {
-        // newDocumentText = tsCommentAllLogs(documentText);
-        // }
         applyNewText(document, newDocumentText);
+        formatAndSave("Logs Commented Successfully");
       } catch (Error) {
         notify("Oops!!! Something went wrong.", "error");
       }
@@ -60,6 +53,7 @@ function activate(context) {
         const documentText = document.getText();
         const newDocumentText = jsUncommentAllLogs(documentText);
         applyNewText(document, newDocumentText);
+        formatAndSave("Logs Uncommented Successfully");
       } catch (Error) {
         notify("Oops!!! Something went wrong.", "error");
       }
@@ -78,10 +72,15 @@ function applyNewText(document, newDocumentText) {
       new vscode.Range(0, 0, documentLineCount, 0),
       newDocumentText
     );
-    vscode.commands.executeCommand("workbench.action.files.save");
   });
 }
-
+function formatAndSave(message) {
+  vscode.commands.executeCommand("editor.action.formatDocument").then(() => {
+    vscode.commands.executeCommand("workbench.action.files.save").then(() => {
+      notify(message, "");
+    });
+  });
+}
 function notify(message, type) {
   switch (type) {
     case "warning":
