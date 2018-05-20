@@ -1,27 +1,35 @@
 # Logs Manager
 
-### Intro
+## Intro
 
 This extension helps you to comment or remove your logs from your file. It supports `JavaScript`, `Flow` & `TypeScript`. It also format your document using the vscode `formate document` command.
 
-### Usage
+## Usage
 
-##### Comment all logs
+#### Comment all logs
 
-###### Method One
+##### Method One
 
--- Press `Shift+Cmd+P` and run the command named `Comment logs`.
+Press `Shift+Cmd+P` and run the command named `Comment logs`.
 
-###### Method Two
+##### Method Two
 
 Press `Shift+Cmd+C` for `Mac` and `Shift+Ctrl+C` for `Windows`.
 
-##### Remove all logs
+##### Example
 
-###### Method One
+![Demo](https://github.com/Rishab-1065/logs-manager/raw/master/images/comment-logs.gif)
 
--- Press `Shift+Cmd+P` and run the command named `Remove logs`.
+#### Remove all logs
 
-###### Method Two
+##### Method One
+
+Press `Shift+Cmd+P` and run the command named `Remove logs`.
+
+##### Method Two
 
 Press `Shift+Cmd+R` for `Mac` and `Shift+Ctrl+R` for `Windows`.
+
+##### Example
+
+![Demo](https://github.com/Rishab-1065/logs-manager/raw/master/images/remove-logs.gif)
